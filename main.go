@@ -74,7 +74,7 @@ func main() {
 			if err != nil {
 				return cli.NewExitError(err.Error(), 1)
 			}
-			ury, err := utils.NewURY(config.ApiKey)
+			ury, err := utils.NewURY(config.GetApiKey())
 			if err != nil {
 				return cli.NewExitError(err.Error(), 1)
 			}
