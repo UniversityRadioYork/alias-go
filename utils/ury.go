@@ -34,7 +34,7 @@ func (u URY) GetMailingListMembers(list myradio.List) ([]myradio.Member, error) 
 }
 
 func (u URY) GetMiscAliases() ([]myradio.Alias, error) {
-	return u.session.GetAllAliases()
+	return u.session.GetAllAliases([]string{})
 }
 
 func (u URY) GetOfficerAliases() ([]myradio.OfficerPosition, error) {

@@ -44,10 +44,7 @@ func GenerateAliases(ury utils.URYFetcher, c utils.Configurer) (string, error) {
 		return "", err
 	}
 	aliases := mergeAliases(mailing, misc, officer, user)
-	err = addManagementFallback(&aliases, c)
-	if err != nil {
-		return "", err
-	}
+	addManagementFallback(&aliases, c)
 	addNonDottedAliases(&aliases)
 	removeDuplicatesAndBlanks(&aliases)
 	return aliasesToString(aliases), nil
@@ -82,6 +79,8 @@ func generateMailingListAliases(ury utils.URYFetcher) (Aliases, error) {
 					}
 				}
 			}
+		} else {
+			log.Printf("Skipping list '%s' with id: %d, it has no members", list.Name, list.Listid)
 		}
 	}
 	return aliases, nil
@@ -298,6 +297,8 @@ func addCurrentOfficers(a *Aliases, o myradio.OfficerPosition, ury utils.URYFetc
 		}
 		return nil
 	} else {
+		log.Printf("No current officer '%s' in team: '%d '%s', deferring to head of team",
+		 o.Name, o.Team.TeamID, o.Team.Name)
 		return addHeadOfTeam(a, o, ury, c)
 	}
 }
@@ -340,6 +341,7 @@ func addHeadOfTeam(a *Aliases, o myradio.OfficerPosition, ury utils.URYFetcher, 
 			}
 		}
 	} else {
+		log.Printf("Deferring head of team '%s' with id: %d to (assistant) station manager", o.Team.Name, o.OfficerID)
 		if o.Alias == c.GetHeadOfStation() {
 			(*a)[o.Alias] = append((*a)[o.Alias], c.GetAssistantHeadOfStation())
 		} else {
@@ -349,7 +351,7 @@ func addHeadOfTeam(a *Aliases, o myradio.OfficerPosition, ury utils.URYFetcher, 
 	return nil
 }
 
-func addManagementFallback(a *Aliases, c utils.Configurer) error {
+func addManagementFallback(a *Aliases, c utils.Configurer) {
 	// Fall back to ASM if there is no SM
 	if h, exists := (*a)[c.GetHeadOfStation()]; !exists || len(h) == 0 {
 		if !exists {
@@ -357,7 +359,6 @@ func addManagementFallback(a *Aliases, c utils.Configurer) error {
 		}
 		(*a)[c.GetHeadOfStation()] = append((*a)[c.GetHeadOfStation()], c.GetAssistantHeadOfStation())
 	}
-	return nil
 }
 
 func checkConfig(c utils.Configurer) error {
