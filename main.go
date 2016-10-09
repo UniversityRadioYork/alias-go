@@ -6,6 +6,8 @@ import (
 	"github.com/UniversityRadioYork/alias-go/utils"
 	"github.com/urfave/cli"
 	"os"
+	"log"
+	"io/ioutil"
 )
 
 func main() {
@@ -13,6 +15,7 @@ func main() {
 	var configfilepath string
 	var outfile string
 	var writeexample string
+	var verbose bool
 
 	app := cli.NewApp()
 	app.Name = "alias-go"
@@ -42,6 +45,11 @@ func main() {
 			Usage:       "Write an example config to `FILE`",
 			Destination: &writeexample,
 		},
+		cli.BoolFlag{
+			Name:        "verbose, v",
+			Usage:       "Output additional information to stdout",
+			Destination: &verbose,
+		},
 	}
 
 	// Before the application runs, let's just do some validation
@@ -53,6 +61,9 @@ func main() {
 			if _, err := os.Stat(configfilepath); os.IsNotExist(err) {
 				return cli.NewExitError("Invalid config file", 1)
 			}
+		}
+		if !verbose {
+			log.SetOutput(ioutil.Discard)
 		}
 		return nil
 	}
