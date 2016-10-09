@@ -23,11 +23,13 @@ $ alias-go -e config.toml # will generate an example config
 ```
 USAGE:
    alias-go [global options] command [command options] [arguments...]
+
 GLOBAL OPTIONS:
-      --config-file FILE, --config FILE, -c FILE      Load configuration from FILE  (required)
-      --out-filename FILE, --out FILE, -o FILE        Write aliases to FILE (default: "aliases")
-      --example-config FILE, --example FILE, -e FILE  Write an example config to FILE
-      --help, -h                                      show help
+   --config-file FILE, --config FILE, -c FILE      Load configuration from FILE (required)
+   --out-filename FILE, --out FILE, -o FILE        Write aliases to FILE (default: "aliases")
+   --example-config FILE, --example FILE, -e FILE  Write an example config to FILE
+   --verbose, -v                                   Output additional information to stdout
+   --help, -h                                      show help
 ```
 
 ## Testing
