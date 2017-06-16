@@ -73,7 +73,7 @@ func generateMailingListAliases(ury utils.URYFetcher) (Aliases, error) {
 				if member.Receiveemail {
 					if member.Email == "" {
 						log.Printf("Member with id: %d has receive_email set to true but has "+
-							"no email set", member.Memberid)
+							"no email set", member.MemberID)
 					} else {
 						aliases[list.Address] = append(aliases[list.Address], member.Email)
 					}
@@ -261,7 +261,7 @@ func parseOfficerAlias(raw *json.RawMessage) (string, error) {
 }
 
 func parseMemberAlias(raw *json.RawMessage) (string, error) {
-	var result myradio.Member
+	var result myradio.User
 	err := json.Unmarshal(*raw, &result)
 	if err != nil {
 		return "", err
@@ -269,7 +269,7 @@ func parseMemberAlias(raw *json.RawMessage) (string, error) {
 	if result.Receiveemail {
 		return result.Email, nil
 	} else {
-		log.Printf("memberid %d has receive_email set to false", result.Memberid)
+		log.Printf("memberid %d has receive_email set to false", result.MemberID)
 		return "", nil
 	}
 }
@@ -289,7 +289,7 @@ func addCurrentOfficers(a *Aliases, o myradio.OfficerPosition, ury utils.URYFetc
 			if officer.Receiveemail {
 				if officer.Email == "" {
 					log.Printf("Member with id: %d has receive_email set to true but has "+
-						"no email set", officer.Memberid)
+						"no email set", officer.MemberID)
 				} else {
 					(*a)[o.Alias] = append((*a)[o.Alias], officer.Email)
 				}
@@ -298,7 +298,7 @@ func addCurrentOfficers(a *Aliases, o myradio.OfficerPosition, ury utils.URYFetc
 		return nil
 	} else {
 		log.Printf("No current officer '%s' in team: '%d '%s', deferring to head of team",
-		 o.Name, o.Team.TeamID, o.Team.Name)
+			o.Name, o.Team.TeamID, o.Team.Name)
 		return addHeadOfTeam(a, o, ury, c)
 	}
 }
@@ -314,7 +314,7 @@ func addHistoricalOfficers(a *Aliases, o myradio.OfficerPosition, c utils.Config
 			if officer.User.Receiveemail {
 				if officer.User.Email == "" {
 					log.Printf("Member with id: %d has receive_email set to true but has "+
-						"no email set", officer.User.Memberid)
+						"no email set", officer.User.MemberID)
 				} else {
 					(*a)[o.Alias] = append((*a)[o.Alias], officer.User.Email)
 				}
@@ -334,7 +334,7 @@ func addHeadOfTeam(a *Aliases, o myradio.OfficerPosition, ury utils.URYFetcher, 
 			if head.User.Receiveemail {
 				if head.User.Email == "" {
 					log.Printf("Member with id: %d has receive_email set to true but has "+
-						"no email set", head.User.Memberid)
+						"no email set", head.User.MemberID)
 				} else {
 					(*a)[o.Alias] = append((*a)[o.Alias], head.User.Email)
 				}

@@ -4,11 +4,11 @@ import "github.com/UniversityRadioYork/myradio-go"
 
 type URYFetcher interface {
 	GetMailingLists() ([]myradio.List, error)
-	GetMailingListMembers(list myradio.List) ([]myradio.Member, error)
+	GetMailingListMembers(list myradio.List) ([]myradio.User, error)
 	GetMiscAliases() ([]myradio.Alias, error)
 	GetOfficerAliases() ([]myradio.OfficerPosition, error)
 	GetMemberAliases() ([]myradio.UserAlias, error)
-	GetHeadOfTeam(myradio.Team) ([]myradio.HeadPosition, error)
+	GetHeadOfTeam(myradio.Team) ([]myradio.Officer, error)
 }
 
 type URY struct {
@@ -29,8 +29,8 @@ func (u URY) GetMailingLists() ([]myradio.List, error) {
 	return u.session.GetAllLists()
 }
 
-func (u URY) GetMailingListMembers(list myradio.List) ([]myradio.Member, error) {
-	return u.session.GetMembers(&list)
+func (u URY) GetMailingListMembers(list myradio.List) ([]myradio.User, error) {
+	return u.session.GetUsers(&list)
 }
 
 func (u URY) GetMiscAliases() ([]myradio.Alias, error) {
@@ -45,6 +45,6 @@ func (u URY) GetMemberAliases() ([]myradio.UserAlias, error) {
 	return u.session.GetUserAliases()
 }
 
-func (u URY) GetHeadOfTeam(t myradio.Team) ([]myradio.HeadPosition, error) {
+func (u URY) GetHeadOfTeam(t myradio.Team) ([]myradio.Officer, error) {
 	return u.session.GetTeamHeadPositions(int(t.TeamID), []string{})
 }

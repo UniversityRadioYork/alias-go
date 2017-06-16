@@ -65,42 +65,42 @@ func (ury uryTest) GetMailingLists() ([]myradio.List, error) {
 
 }
 
-func (ury uryTest) GetMailingListMembers(list myradio.List) ([]myradio.Member, error) {
+func (ury uryTest) GetMailingListMembers(list myradio.List) ([]myradio.User, error) {
 
 	switch list.Listid {
 	case 1:
-		return []myradio.Member{
+		return []myradio.User{
 			{
 				Email:        "test.member1",
 				Receiveemail: true,
-				Memberid:     1,
+				MemberID:     1,
 			},
 			{
 				Email:        "test.member2",
 				Receiveemail: false,
-				Memberid:     2,
+				MemberID:     2,
 			},
 			{
 				Email:        "test.member3",
 				Receiveemail: true,
-				Memberid:     3,
+				MemberID:     3,
 			},
 		}, nil
 	case 2:
-		return []myradio.Member{
+		return []myradio.User{
 			{
 				Email:        "test.member4",
 				Receiveemail: true,
-				Memberid:     4,
+				MemberID:     4,
 			},
 			{
 				Email:        "",
 				Receiveemail: true,
-				Memberid:     5,
+				MemberID:     5,
 			},
 		}, nil
 	case 3:
-		return []myradio.Member{}, nil
+		return []myradio.User{}, nil
 	default:
 		return nil, errors.New("Bad switch in uryTest.GetMailingListMembers()")
 	}
@@ -235,9 +235,9 @@ func (ury uryTest) GetOfficerAliases() ([]myradio.OfficerPosition, error) {
 			Team: myradio.Team{
 				TeamID: 2,
 			},
-			Current: []myradio.Member{},
+			Current: []myradio.User{},
 			History: []struct {
-				User            myradio.Member
+				User            myradio.User
 				From            time.Time
 				FromRaw         int64 `json:"from"`
 				To              time.Time
@@ -252,7 +252,7 @@ func (ury uryTest) GetOfficerAliases() ([]myradio.OfficerPosition, error) {
 			Team: myradio.Team{
 				TeamID: 3,
 			},
-			Current: []myradio.Member{
+			Current: []myradio.User{
 				{
 					Receiveemail: true,
 					Email:        "boop",
@@ -267,7 +267,7 @@ func (ury uryTest) GetOfficerAliases() ([]myradio.OfficerPosition, error) {
 				},
 			},
 			History: []struct {
-				User            myradio.Member
+				User            myradio.User
 				From            time.Time
 				FromRaw         int64 `json:"from"`
 				To              time.Time
@@ -282,14 +282,14 @@ func (ury uryTest) GetOfficerAliases() ([]myradio.OfficerPosition, error) {
 			Team: myradio.Team{
 				TeamID: 4,
 			},
-			Current: []myradio.Member{
+			Current: []myradio.User{
 				{
 					Receiveemail: true,
 					Email:        "boop",
 				},
 			},
 			History: []struct {
-				User            myradio.Member
+				User            myradio.User
 				From            time.Time
 				FromRaw         int64 `json:"from"`
 				To              time.Time
@@ -297,13 +297,13 @@ func (ury uryTest) GetOfficerAliases() ([]myradio.OfficerPosition, error) {
 				MemberOfficerID int
 			}{
 				{
-					User: myradio.Member{
+					User: myradio.User{
 						Email:        "123123",
 						Receiveemail: true,
 					},
 				},
 				{
-					User: myradio.Member{
+					User: myradio.User{
 						Email:        "456678",
 						Receiveemail: false,
 					},
@@ -313,45 +313,45 @@ func (ury uryTest) GetOfficerAliases() ([]myradio.OfficerPosition, error) {
 	}, nil
 }
 
-func (ury uryTest) GetHeadOfTeam(t myradio.Team) ([]myradio.HeadPosition, error) {
+func (ury uryTest) GetHeadOfTeam(t myradio.Team) ([]myradio.Officer, error) {
 	switch t.TeamID {
 	case 1:
-		return []myradio.HeadPosition{
+		return []myradio.Officer{
 			{
-				User: myradio.Member{
+				User: myradio.User{
 					Email:        "foo@baz",
 					Receiveemail: true,
-					Memberid:     123,
+					MemberID:     123,
 				},
 			},
 		}, nil
 	case 2:
-		return []myradio.HeadPosition{
+		return []myradio.Officer{
 			{
-				User: myradio.Member{
+				User: myradio.User{
 					Email:        "qwexgd@baz",
 					Receiveemail: true,
-					Memberid:     456,
+					MemberID:     456,
 				},
 			},
 		}, nil
 	case 3:
-		return []myradio.HeadPosition{
+		return []myradio.Officer{
 			{
-				User: myradio.Member{
+				User: myradio.User{
 					Email:        "asdqweqwe@baz",
 					Receiveemail: true,
-					Memberid:     674,
+					MemberID:     674,
 				},
 			},
 		}, nil
 	case 4:
-		return []myradio.HeadPosition{
+		return []myradio.Officer{
 			{
-				User: myradio.Member{
+				User: myradio.User{
 					Email:        "asdasd@baz",
 					Receiveemail: false,
-					Memberid:     234,
+					MemberID:     234,
 				},
 			},
 		}, nil
